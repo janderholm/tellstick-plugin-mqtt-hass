@@ -75,3 +75,25 @@ m41Hq9h8voY5b8hegGJmKLrJQLNOT+/rRZmuiTepmoJuyQEoQbMcRFRyyJLO+qI=
 =6Ol1
 -----END PGP PUBLIC KEY BLOCK-----
 ```
+
+## Build instructions
+
+Since the tellstick-server plugin build tools uses functions internal to pip,
+it does not work with versions later than 19.2.3. The scripts however updates
+past this version.
+
+The Dockerfile can be used to setup up a working environment and build the
+plugin.
+
+```
+sudo docker build -t tellstick-plugin-mqtt-hass-build --network=host .
+sudo -E ./build.sh
+```
+
+**Signing**
+
+The build tools expects there to be a gpg key that matches *author* and
+*author_email* of `setup.py` which is used for signing. Currently *~/.gnupg* is
+being mounted into the container and the build script may mess up the
+permissions. Be prepared to fix it with `chown -R $(id -u):$(id -g) ~/.gnupg`
+when done.
